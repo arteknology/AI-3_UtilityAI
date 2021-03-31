@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40cce24e15d70594f8e5e85bc2fc3f56, type: 3}
-  m_Name: Eat
+  m_Name: Pee
   m_EditorClassIdentifier: 
   Curve:
     serializedVersion: 2
@@ -36,4 +36,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  Value: {fileID: 11400000, guid: 90e407a2b50bf5247bddf5968049ee1b, type: 2}
+  Value: {fileID: 11400000, guid: f91347152f9cb4e43ae515d3813b4b0b, type: 2}

@@ -1518,14 +1518,18 @@ MonoBehaviour:
   Kitchen: {fileID: 1260701207}
   Bed: {fileID: 2111872300}
   Shower: {fileID: 1599926975}
-  Eat: {fileID: 11400000, guid: aea4bfcbffed71045a156bca1a6d76b3, type: 2}
-  Sleep: {fileID: 11400000, guid: 8e20285f1226fc3419ffaddc3b475568, type: 2}
-  Pee: {fileID: 11400000, guid: b33d95580d0fca244a7d64fc0badc133, type: 2}
-  Wash: {fileID: 11400000, guid: 85a4db1aa4ae0a14ebb653d16bd8c4e9, type: 2}
+  EatSO: {fileID: 11400000, guid: aea4bfcbffed71045a156bca1a6d76b3, type: 2}
+  SleepSO: {fileID: 11400000, guid: 8e20285f1226fc3419ffaddc3b475568, type: 2}
+  PeeSO: {fileID: 11400000, guid: b33d95580d0fca244a7d64fc0badc133, type: 2}
+  WashSO: {fileID: 11400000, guid: 85a4db1aa4ae0a14ebb653d16bd8c4e9, type: 2}
   EatValue: {fileID: 11400000, guid: 90e407a2b50bf5247bddf5968049ee1b, type: 2}
-  SleepValue: {fileID: 11400000, guid: f91347152f9cb4e43ae515d3813b4b0b, type: 2}
-  PeeValue: {fileID: 11400000, guid: 14a6375fe3d446245bea854463090b08, type: 2}
+  SleepValue: {fileID: 11400000, guid: 14a6375fe3d446245bea854463090b08, type: 2}
+  PeeValue: {fileID: 11400000, guid: f91347152f9cb4e43ae515d3813b4b0b, type: 2}
   WashValue: {fileID: 11400000, guid: 307395c8a14a31448927600332b480d0, type: 2}
+  EatTimer: 2
+  SleepTimer: 6
+  PeeTimer: 4
+  WashTimer: 8
 --- !u!1 &1599926974
 GameObject:
   m_ObjectHideFlags: 0
