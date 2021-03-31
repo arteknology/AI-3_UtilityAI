@@ -6,21 +6,12 @@ using UnityEngine;
 public class Utility : ScriptableObject
 {
     public AnimationCurve Curve;
+    public SoFloat Value;
     
-    [Header("Curve Values")]
-    public int UtilityMin;
-    public int ValMin;
-    public int UtilityMax;
-    public int ValMax;
-
-
-    public int Evaluate(float Value)
+    public float Evaluate()
     {
-        float evaluatedValue = Curve.Evaluate(Value);
-
-
-
-        return 1;
+        float evaluatedValue = Curve.Evaluate(Value.Value);
+        return evaluatedValue;
     }
 
 }

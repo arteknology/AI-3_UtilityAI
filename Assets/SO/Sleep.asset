@@ -27,8 +27,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -36,7 +36,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  UtilityMin: 0
-  ValMin: 0
-  UtilityMax: 1
-  ValMax: 1
+  Value: {fileID: 11400000, guid: 14a6375fe3d446245bea854463090b08, type: 2}

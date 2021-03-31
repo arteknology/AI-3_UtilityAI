@@ -19,6 +19,20 @@ public class Actor : MonoBehaviour
     public Utility Wash;
 
 
+    [Header("So Value")]
+    public SoFloat EatValue;
+    public SoFloat SleepValue;
+    public SoFloat PeeValue;
+    public SoFloat WashValue;
+
+
+    [Header("Timers")]
+    public float EatTimer;
+    public float SleepTimer;
+    public float PeeTimer;
+    public float WashTimer;
+    
+    
     private NavMeshAgent _navMesh;
     private float _bedDist;
     private float _kitchenDist;
@@ -27,15 +41,18 @@ public class Actor : MonoBehaviour
 
     void Start()
     {
-        Eat.Curve = new AnimationCurve(new Keyframe(Eat.UtilityMin, Eat.ValMin), new Keyframe(Eat.UtilityMax, Eat.ValMax));
-        Sleep.Curve = new AnimationCurve(new Keyframe(Sleep.UtilityMin, Sleep.ValMin), new Keyframe(Sleep.UtilityMax, Sleep.ValMax));
-        Pee.Curve = new AnimationCurve(new Keyframe(Pee.UtilityMin, Pee.ValMin), new Keyframe(Pee.UtilityMax, Pee.ValMax));
-        Wash.Curve = new AnimationCurve(new Keyframe(Wash.UtilityMin, Wash.ValMin), new Keyframe(Wash.UtilityMax, Wash.ValMax));
-
         _navMesh = GetComponent<NavMeshAgent>();
     }
 
+    
     private void Update()
+    {
+        GetDistance();
+        Move();
+    }
+    
+
+    private void GetDistance()
     {
         _bedDist = Vector3.Distance(transform.position, Bed.position);
         _kitchenDist = Vector3.Distance(transform.position, Kitchen.position);
