@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Action
 {
-    public SoFloat ActionValue;
+    public Utility Curve;
     public Transform Transform;
 
-    public Action(SoFloat value, Transform transform)
+    public Action(Utility utility, Transform transform)
     {
-        ActionValue = value;
+        Curve = utility;
         Transform = transform;
     }
 }
