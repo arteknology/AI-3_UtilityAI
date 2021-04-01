@@ -11,15 +11,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/10564ED1-54D6-47E1-94BE-F4AEF8878649/17/ddc519c8/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Action.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D3A4CBA-CDAE-45B3-84E0-E80B376938E1/63/b9474713/NativeInputSystem.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
-    <changedPaths>
-      <option value="$PROJECT_DIR$/Assets/Scripts/Action.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scripts/Actor.cs" />
-    </changedPaths>
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/Scripts/SO_Scripts/Utility.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Action.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Actor.cs" />
+      </list>
+    </option>
   </component>
   <component name="ProjectId" id="1qWh2Ltau6ozCvrAWSMrKtfUHEI" />
   <component name="ProjectViewState">
@@ -35,7 +36,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+  <component name="RunManager">
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
@@ -66,6 +67,7 @@
       <workItem from="1617201056100" duration="4375000" />
       <workItem from="1617213088375" duration="17793000" />
       <workItem from="1617282927163" duration="9188000" />
+      <workItem from="1617308343336" duration="3094000" />
     </task>
     <servers />
   </component>

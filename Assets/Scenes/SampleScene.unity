@@ -1526,7 +1526,7 @@ MonoBehaviour:
   SleepValue: {fileID: 11400000, guid: 14a6375fe3d446245bea854463090b08, type: 2}
   PeeValue: {fileID: 11400000, guid: f91347152f9cb4e43ae515d3813b4b0b, type: 2}
   WashValue: {fileID: 11400000, guid: 307395c8a14a31448927600332b480d0, type: 2}
-  EatTimer: 2
+  EatTimer: 6
   SleepTimer: 6
   PeeTimer: 4
   WashTimer: 8

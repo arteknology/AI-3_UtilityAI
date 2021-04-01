@@ -37,3 +37,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   Value: {fileID: 11400000, guid: 14a6375fe3d446245bea854463090b08, type: 2}
+  MinValue: 0.75

@@ -62,8 +62,7 @@ public class Actor : MonoBehaviour
     private void Update()
     {
         Live();
-        InvokeRepeating(nameof(EvaluateOptions), 3f, 1);
-        
+        InvokeRepeating("EvaluateOptions", 0.1f, 1);
     }
     
     
@@ -159,42 +158,58 @@ public class Actor : MonoBehaviour
     
     private void EvaluateOptions()
     {
-        Action principal = new Action(null, null);
-        Action secondary = new Action(null, null);
-
-        foreach (Action action in _options)
+        if (_navMesh.isStopped)
         {
-            if (action.Curve.Value.Value != 0)
+            foreach (Action action in _options)
             {
-                if (!dict.ContainsKey(action))
+                if (action.Curve.Value.Value != 0)
                 {
-                    dict.Add(action, action.Curve.Evaluate());
+                    if (!dict.ContainsKey(action))
+                    {
+                        dict.Add(action, action.Curve.Evaluate());
+                    }
                 }
+                else
+                {
+                    if (dict.ContainsKey(action))
+                    {
+                        dict.Remove(action);
+                    }
+                }
+
             }
-            else
+
+            dict.OrderByDescending(o => o.Value);
+
+
+            if (dict.Count > 2)
             {
-                if (dict.ContainsKey(action))
+                Action firstKey = dict.ElementAt(0).Key;
+                Action secondKey = dict.ElementAt(1).Key;
+
+                Action principal = null;
+                Action secondary = null;
+            
+                if (firstKey.Curve.Evaluate() > firstKey.Curve.MinValue)
                 {
-                    dict.Remove(action);
+                    principal = firstKey;
                 }
+
+                if (secondKey.Curve.Evaluate() > secondKey.Curve.MinValue)
+                {
+                    secondary = secondKey;
+                }
+
+                GetDistance(principal, secondary);
             }
-
-        }
-
-        dict.OrderByDescending(o => o.Value);
-
-        if (dict.Count > 2)
-        {
-            principal = dict.ElementAt(0).Key;
-            secondary = dict.ElementAt(1).Key;
-
-            GetDistance(principal, secondary);   
         }
     }
 
 
     private void GetDistance(Action principal, Action secondary)
     {
+        if(principal == null) return;
+        if(secondary == null) return;
         _principalDist = Vector3.Distance(transform.position, principal.Transform.position);
         _secondaryDist = Vector3.Distance(transform.position, secondary.Transform.position);
 
@@ -239,10 +254,10 @@ public class Actor : MonoBehaviour
         }
         
         if(transform.position.x == action.Transform.position.x && transform.position.z == action.Transform.position.z)
-        {
-            _navMesh.isStopped = true;
+        {    
             action.Curve.Value.Value = 0f;
             Debug.Log(action.Curve.Value.Value);
+            _navMesh.isStopped = true;
         }
     }
 }
