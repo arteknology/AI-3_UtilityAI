@@ -8,7 +8,8 @@ public class Utility : ScriptableObject
     public AnimationCurve Curve;
     public SoFloat Value;
     public float MinValue;
-
+    public float MaxValue;
+        
     public float Evaluate()
     {
         float evaluatedValue = Curve.Evaluate(Value.Value);

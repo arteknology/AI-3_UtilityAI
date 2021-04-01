@@ -46,25 +46,64 @@ public class Actor : MonoBehaviour
     private Action _sleepAction;
     private Action _peeAction;
     private Action _washAction;
+    public bool IsDoingAction;
 
     private Dictionary<Action, float> dict = new Dictionary<Action, float>();
     private void Start()
     {
         _navMesh = GetComponent<NavMeshAgent>();
         _navMesh.isStopped = true;
+        IsDoingAction = false;
         
         SetValues();
         SetTimer();
         SetActions();
         SetOptions();
+        Live();
     }
     
     private void Update()
     {
         Live();
-        InvokeRepeating("EvaluateOptions", 0.1f, 1);
+        if (!IsDoingAction)
+        {
+            EvaluateOptions();
+        }
     }
     
+    private void SetValues()
+    {
+        EatValue.Value = 0f;
+        SleepValue.Value = 0f;
+        PeeValue.Value = 0f;
+        WashValue.Value = 0f;
+    }
+
+
+    private void SetTimer()
+    {
+        _currEatTimer = EatTimer;
+        _currSleepTimer = SleepTimer;
+        _currPeeTimer = PeeTimer;
+        _currWashTimer = WashTimer;
+    }
+    
+    
+    private void SetActions()
+    {
+        _eatAction = new Action(EatCurve, Kitchen);
+        _sleepAction = new Action(SleepCurve, Bed);
+        _peeAction = new Action(PeeCurve, Toilets);
+        _washAction = new Action(WashCurve, Shower);
+    }
+
+    private void SetOptions()
+    {
+        _options.Add(_eatAction);
+        _options.Add(_sleepAction);
+        _options.Add(_peeAction);
+        _options.Add(_washAction);    
+    }
     
     //IncreaseActionsValues
     private void Live()
@@ -121,108 +160,68 @@ public class Actor : MonoBehaviour
             _currWashTimer = WashTimer;
         }
     }
-
-    private void SetValues()
-    {
-        EatValue.Value = 0f;
-        SleepValue.Value = 0f;
-        PeeValue.Value = 0f;
-        WashValue.Value = 0f;
-    }
-
-
-    private void SetTimer()
-    {
-        _currEatTimer = EatTimer;
-        _currSleepTimer = SleepTimer;
-        _currPeeTimer = PeeTimer;
-        _currWashTimer = WashTimer;
-    }
     
-    
-    private void SetActions()
-    {
-        _eatAction = new Action(EatCurve, Kitchen);
-        _sleepAction = new Action(SleepCurve, Bed);
-        _peeAction = new Action(PeeCurve, Toilets);
-        _washAction = new Action(WashCurve, Shower);
-    }
-
-    private void SetOptions()
-    {
-        _options.Add(_eatAction);
-        _options.Add(_sleepAction);
-        _options.Add(_peeAction);
-        _options.Add(_washAction);    
-    }
     
     private void EvaluateOptions()
     {
-        if (_navMesh.isStopped)
+        dict.Clear();
+        foreach (Action action in _options)
         {
-            foreach (Action action in _options)
+            if (action.Curve.Evaluate() != 0)
             {
-                if (action.Curve.Value.Value != 0)
+                float evaluatedAction = action.Curve.Evaluate();
+                float minValueToDoAction = action.Curve.MinValue;
+                    
+                if (!dict.ContainsKey(action))
                 {
-                    if (!dict.ContainsKey(action))
+                    if (evaluatedAction > minValueToDoAction)
                     {
                         dict.Add(action, action.Curve.Evaluate());
                     }
                 }
-                else
-                {
-                    if (dict.ContainsKey(action))
-                    {
-                        dict.Remove(action);
-                    }
-                }
-
             }
+        }
 
-            dict.OrderByDescending(o => o.Value);
-
-
-            if (dict.Count > 2)
-            {
-                Action firstKey = dict.ElementAt(0).Key;
-                Action secondKey = dict.ElementAt(1).Key;
-
-                Action principal = null;
-                Action secondary = null;
             
-                if (firstKey.Curve.Evaluate() > firstKey.Curve.MinValue)
-                {
-                    principal = firstKey;
-                }
+        if (dict.Count > 2)
+        {
+            dict.OrderBy(o => o.Value);
 
-                if (secondKey.Curve.Evaluate() > secondKey.Curve.MinValue)
-                {
-                    secondary = secondKey;
-                }
+            Action principal = dict.ElementAt(0).Key;
+            Debug.Log("J'ai trop envie de faire ça"+principal.Curve.Value.Value);
 
-                GetDistance(principal, secondary);
-            }
+            Action secondary = dict.ElementAt(1).Key;
+            Debug.Log("J'ai pas mal envie de faire ça aussi"+secondary.Curve.Value.Value);
+
+            GetDistance(principal, secondary);
         }
     }
 
 
     private void GetDistance(Action principal, Action secondary)
     {
-        if(principal == null) return;
-        if(secondary == null) return;
+        IsDoingAction = true;
+        if (principal == null || secondary == null) return;
         _principalDist = Vector3.Distance(transform.position, principal.Transform.position);
         _secondaryDist = Vector3.Distance(transform.position, secondary.Transform.position);
 
         if (_principalDist < _secondaryDist)
         {
-            if (transform.position != principal.Transform.position)
-            {
-                DoAction(principal);
-            }
+            DoAction(principal);
+            Debug.Log("Comme c'est le plus important.."+principal.Curve.Value.Value);
         }
         else
         {
-            DoAction(secondary);
+            if (principal.Curve.Evaluate() > principal.Curve.MaxValue)
+            {
+                DoAction(principal);
+                Debug.Log("Comme c'est le plus important et même si l'autre est plus proche.."+" Value: "+principal.Curve.Value.Value + " EvaluatedValue: "+ principal.Curve.Evaluate());
+            }
+            else
+            {
+                DoAction(secondary);
+                Debug.Log("Bon comme c'est plus proche.."+secondary.Curve.Value.Value);
+            }
         }
     }
     
@@ -235,7 +234,7 @@ public class Actor : MonoBehaviour
         //Log the action
         if (action == _eatAction)
         {
-            Debug.Log("Je vais manger");
+            Debug.Log("Je vais manger"+action.Curve.Value.Value);
         }
 
         if (action == _sleepAction)
@@ -252,12 +251,14 @@ public class Actor : MonoBehaviour
         {
             Debug.Log("Je vais me laver");
         }
-        
-        if(transform.position.x == action.Transform.position.x && transform.position.z == action.Transform.position.z)
-        {    
+
+        float distToAction = Vector3.Distance(transform.position, action.Transform.position);
+        if(distToAction <= 1)
+        {
             action.Curve.Value.Value = 0f;
             Debug.Log(action.Curve.Value.Value);
             _navMesh.isStopped = true;
+            IsDoingAction = false;
         }
     }
 }
